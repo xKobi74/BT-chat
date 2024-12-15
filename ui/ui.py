@@ -27,6 +27,16 @@ def get_message():
 def on_enter(event):
     send_message()
 
+# Функция для управления фокусом и вызова клавиатуры
+def focus_input(event):
+    input_box.focus_set()  # Установка фокуса на поле ввода
+    input_box.tkraise()    # Поднимаем поле ввода на передний план
+    root.tkraise()         # Убедимся, что главное окно на переднем плане
+
+# Функция для скрытия клавиатуры
+def unfocus(event):
+    input_box.quit()  # Убираем фокус с поля ввода, чтобы скрыть клавиатуру
+
 # Создание основного окна
 root = tk.Tk()
 root.title("Message Sender/Receiver")
@@ -40,6 +50,10 @@ input_box = tk.Text(root, height=2)
 input_box.pack(pady=10)
 input_box.bind("<Return>", on_enter)  # Связываем нажатие клавиши Enter с функцией
 
+# Обработка нажатий по экрану
+root.bind("<Button-1>", focus_input)  # Фокус на поле ввода при нажатии
+root.bind("<FocusOut>", unfocus)  # Убираем фокус при нажатии вне поля ввода
+
 # Кнопки
 send_button = tk.Button(root, text="Send", command=send_message)
 send_button.pack(side=tk.LEFT, padx=(10, 0))
@@ -49,5 +63,7 @@ get_button.pack(side=tk.LEFT, padx=(10, 0))
 
 # Запуск интерфейса
 root.mainloop()
+
+
 
 
